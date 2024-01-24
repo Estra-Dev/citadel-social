@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useCookies } from "react-cookie"
 import axios from 'axios'
 import Logo from './Logo'
+import { Button, Navbar } from 'flowbite-react'
+import { IoMenu } from "react-icons/io5"
 
 const Nav = () => {
 
   const [cookies, setCookies] = useCookies(["access_token"])
   const [user, setUser] = useState("")
   const navigate = useNavigate()
+  const path = useLocation().pathname
 
   const handleLogut = () => {
     setCookies("access_token", "")
@@ -30,26 +33,41 @@ const Nav = () => {
   }, [])
 
   return (
-    <div className=' w-full px-[5%] py-[0.7%] flex justify-between item-center shadow-md shadow-slate-500/30 text-slate-700 font-sans font-semibold sticky top-0 bg-white z-50'>
+    <Navbar className=' w-full px-[5%] md:px-[10%] py-[0.7%] flex justify-between item-center shadow-md shadow-slate-500/30 text-slate-700 font-sans font-semibold sticky top-0 bg-white z-50'>
       <div>
         <Logo />
       </div>
-
-      <div className=' flex gap-6 items-center'>
-        <Link to={'/citadel_treasure_ministry'}>
-          <p>Feed</p>
-        </Link>
-        <Link>
-          <p>Activities</p>
-        </Link>
-      </div>
       {cookies.access_token && (
-        <div className=' flex gap-2 items-center'>
-          <p>{user}</p>
-          <button onClick={handleLogut}>Log Out</button>
-        </div>
+        <>
+          <div className=' flex gap-2 items-center text-sm md:text-lg sm:order-2'>
+            
+            <Button onClick={handleLogut} className=' px-0' pill gradientDuoTone={"purpleToBlue"}>Log Out</Button>
+            <Navbar.Toggle className=' text-sm' />
+          </div>
+          
+          <Navbar.Collapse>
+            <Navbar.Link active={path==="/citadel_treasure_ministry"} as={"div"}>
+              <Link to={'/citadel_treasure_ministry'}>
+                <p>Feed</p>
+              </Link>
+            </Navbar.Link>
+            <Navbar.Link active={path==="/citadel_treasure_ministry/activities"} as={"div"}>
+              <Link to={"/citadel_treasure_ministry/activities"}>
+                <p>Activities</p>
+              </Link>
+            </Navbar.Link>
+            <div className=' inline sm:hidden mt-3'>
+              <p>{user}</p>
+            </div>
+          </Navbar.Collapse>
+          <div className=' hidden sm:inline'>
+            <p>{user}</p>
+          </div>
+          {/* <IoMenu className=' md:hidden' /> */}
+        </>
       )}
-    </div>
+      
+    </Navbar>
   )
 }
 

@@ -5,6 +5,7 @@ import MeetWith from './MeetWith'
 import MultipleContainer from './MultipleContainer'
 import ProfileComponent from './ProfileComponent'
 import Friend from '../pages/Friend'
+import Activities from '../pages/Activities'
 
 const Citadel = () => {
   return (
@@ -19,6 +20,7 @@ const Citadel = () => {
           </div>
          } />
         <Route path='/friend/:id' element={ <Friend /> } />
+        <Route path='/activities' element={ <Activities /> } />
       </Routes>
       
     </div>
