@@ -34,14 +34,14 @@ const Nav = () => {
 
   return (
     <Navbar className=' w-full px-[5%] md:px-[10%] py-[0.7%] flex justify-between item-center shadow-md shadow-slate-500/30 text-slate-700 font-sans font-semibold sticky top-0 bg-white z-50'>
-      <div>
+      <div className=' w-[30%]'>
         <Logo />
       </div>
       {cookies.access_token && (
-        <>
+        <div className=' whitespace-nowrap w-[65%] flex justify-end sm:justify-between items-center'>
           <div className=' flex gap-2 items-center text-sm md:text-lg sm:order-2'>
             
-            <Button onClick={handleLogut} className=' px-0' pill gradientDuoTone={"purpleToBlue"}>Log Out</Button>
+            <Button onClick={handleLogut} gradientDuoTone={"purpleToBlue"} outline>Log Out</Button>
             <Navbar.Toggle className=' text-sm' />
           </div>
           
@@ -64,7 +64,7 @@ const Nav = () => {
             <p>{user}</p>
           </div>
           {/* <IoMenu className=' md:hidden' /> */}
-        </>
+        </div>
       )}
       
     </Navbar>
