@@ -63,7 +63,7 @@ const Nav = () => {
           <div className=' hidden sm:inline'>
             <p>{user}</p>
           </div>
-          {/* <IoMenu className=' md:hidden' /> */}
+          
         </div>
       )}
       

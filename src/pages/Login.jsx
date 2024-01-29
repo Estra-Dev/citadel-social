@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-import {useCookies} from "react-cookie"
+import { useCookies } from "react-cookie"
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice'
+import {useDispatch, useSelector} from "react-redux"
+import { Alert, Spinner } from 'flowbite-react'
 
 const Login = () => {
 
@@ -13,6 +16,9 @@ const Login = () => {
   const [, setCookies] = useCookies(["access_token"])
   const navigate = useNavigate()
 
+  const dispatch = useDispatch()
+  const {loading, error: errMessage} = useSelector(state => state.user)
+
   const handleChange = (ev) => {
     const { name, value } = ev.target
     setDetails({ ...details, [name]: value })
@@ -22,7 +28,12 @@ const Login = () => {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault()
+    if (details.firstname === "" || details.password === "") {
+      
+      return dispatch(signInFailure('Please Fill all Spaces'))
+    }
     try {
+      dispatch(signInStart())
       const res = await axios.post("http://localhost:3200/auth/login", details, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true
@@ -30,13 +41,16 @@ const Login = () => {
       setCookies("access_token", res.data.token)
       window.localStorage.setItem("userID", res.data.userID)
       if (res.status === 201) {
-        navigate("/citadel_treasure_ministry")        
+        dispatch(signInSuccess(res.data))
+        navigate("/citadel_treasure_ministry")
       } else {
+        dispatch(signInFailure(res.data.message))
         console.log(res.data)
       }
       
     } catch (error) {
-      console.log(error) 
+      console.log(error)
+      dispatch(signInFailure(error))
     }
   }
 
@@ -55,12 +69,28 @@ const Login = () => {
             <input type="password" name='password' value={details.password} onChange={handleChange} placeholder='e.g: meEtYOU1234@' className=' w-full p-2 rounded-md bg-transparent border-[1px] border-white/45 text-white outline-none' />
           </div>
           <div className=' flex gap-6'>
-            <button className=' hover:bg-cyan-400 hover:text-white transition-colors hover:shadow-sm hover:shadow-white bg-white py-1 px-2 rounded-md text-cyan-400 font-bold'>Log in</button>
+            <button className=' hover:bg-cyan-400 hover:text-white transition-colors hover:shadow-sm hover:shadow-white bg-white py-1 px-2 rounded-md text-cyan-400 font-bold' disabled={loading}>
+                {loading ? (
+                  <>
+                    <Spinner size={'sm'} />
+                    <span className=' pl-3'>Loading...</span>
+                  </>
+                ) : "Log In"}
+              </button>
             <p className=' py-1 px-2 text-white font-bold'>Or</p>
             <Link to={"/register"}>
               <p className=' py-1 px-2 text-white font-light'>Register</p>
             </Link>
           </div>
+          {
+              errMessage && (
+                <Alert className=" mt-5" color={'failure'}>
+                  {
+                    errMessage
+                  }
+                </Alert>
+              )
+            }
         </form>
       </div>
     </div>

@@ -30,7 +30,6 @@ const Registration = () => {
 
     setLoader(true)
     setErrMessage(null)
-    setSuccessMessage(null)
     if (details.firstname === "" || details.lastname === "" || details.email === "" || details.password === "") {
       setLoader(false)
       return setErrMessage("Please Fill all Spaces")
