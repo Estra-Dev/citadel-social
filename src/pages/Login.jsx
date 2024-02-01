@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie"
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice'
 import {useDispatch, useSelector} from "react-redux"
 import { Alert, Spinner } from 'flowbite-react'
+import Oauth from '../components/Oauth'
 
 const Login = () => {
 
@@ -76,12 +77,14 @@ const Login = () => {
                     <span className=' pl-3'>Loading...</span>
                   </>
                 ) : "Log In"}
-              </button>
+            </button>
             <p className=' py-1 px-2 text-white font-bold'>Or</p>
             <Link to={"/register"}>
               <p className=' py-1 px-2 text-white font-light'>Register</p>
             </Link>
           </div>
+          <Oauth />
+          
           {
               errMessage && (
                 <Alert className=" mt-5" color={'failure'}>

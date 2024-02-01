@@ -2,6 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { Alert, Spinner } from 'flowbite-react';
+import Oauth from '../components/Oauth';
 
 const Registration = () => {
 
@@ -108,6 +109,7 @@ const Registration = () => {
                 <p className=' py-1 px-2 text-white font-light'>Log In</p>
               </Link>
             </div>
+            <Oauth />
             {
               errMessage && (
                 <Alert className=" mt-5" color={'failure'}>
