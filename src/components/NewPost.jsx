@@ -23,7 +23,7 @@ const NewPost = () => {
       headers: {Authorization: cookies.access_token}
     })
     if (res.status === 200) {
-      navigate("/citadel_treasure_ministry/")
+      navigate("/")
     }
     console.log(res)
   }

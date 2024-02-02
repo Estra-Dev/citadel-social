@@ -43,7 +43,7 @@ const Login = () => {
       window.localStorage.setItem("userID", res.data.userID)
       if (res.status === 201) {
         dispatch(signInSuccess(res.data))
-        navigate("/citadel_treasure_ministry")
+        navigate("/")
       } else {
         dispatch(signInFailure(res.data.message))
         console.log(res.data)

@@ -19,21 +19,27 @@ const Oauth = () => {
     
     try {
       const resultFromGoogle = await signInWithPopup(auth, provider)
+      console.log(resultFromGoogle)
 
-      const data = new FormData()
-      data.set('firstname', resultFromGoogle._tokenResponse.firstName)
-      data.set('lastname', resultFromGoogle._tokenResponse.lastName)
-      data.set('email', resultFromGoogle.user.email)
-      data.set('profileImg', resultFromGoogle.user.photoURL)
+      // const data = new FormData()
+      // data.set('firstname', resultFromGoogle._tokenResponse.firstName)
+      // data.set('lastname', resultFromGoogle._tokenResponse.lastName)
+      // data.set('email', resultFromGoogle.user.email)
+      // data.set('profileImg', resultFromGoogle.user.photoURL)
 
-      const res = await axios.post("http://localhost:3200/auth/google", data, {
+      const res = await axios.post("http://localhost:3200/auth/google", {
+        firstname: resultFromGoogle._tokenResponse.firstName,
+        lastname: resultFromGoogle._tokenResponse.lastName,
+        email: resultFromGoogle.user.email,
+        profileImg: resultFromGoogle.user.photoURL
+      }, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true
       })
 
       if (res.status === 201) {
         dispatch(signInSuccess(res.data))
-        navigate("/citadel_treasure_ministry")
+        navigate("/")
       }
     } catch (error) {
       console.log(error)
