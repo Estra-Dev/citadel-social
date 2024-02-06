@@ -68,7 +68,7 @@ const Nav = () => {
                   }
                 >
                   <Dropdown.Header>
-                    <span className=' block text-xs'>@{currentUser.firstname || currentUser.rest.firstname  + " " + currentUser.lastname || currentUser.rest.lastname}</span>
+                    <span className=' block text-xs'>@{(currentUser.firstname || currentUser.rest.firstname) + " " + (currentUser.lastname || currentUser.rest.lastname)}</span>
                     <span className=' block text-xs font-medium truncate'>{ currentUser.email || currentUser.rest.email}</span>
                   </Dropdown.Header>
 

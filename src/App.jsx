@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Nav from './components/Nav'
 import Activities from './pages/Activities'
+import PrivateRoute from './components/PrivateRoute'
 
 const App = () => {
   return (
@@ -17,7 +18,9 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Registration />} />
           <Route path='/register' element={<Activities />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Route>
         </Routes>
       </Router>
       
