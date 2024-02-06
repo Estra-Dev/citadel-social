@@ -5,7 +5,10 @@ import { useCookies } from "react-cookie"
 // import axios from 'axios'
 import Logo from './Logo'
 import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react'
-import {useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { BsFillMoonStarsFill } from "react-icons/bs";
+import { MdSunny } from "react-icons/md";
+import { toogleTheme } from '../redux/theme/themeSlice'
 
 const Nav = () => {
 
@@ -13,7 +16,9 @@ const Nav = () => {
   // const [user, setUser] = useState("")
   const navigate = useNavigate()
   const path = useLocation().pathname
-  const {currentUser} = useSelector(state => state.user)
+  const { currentUser } = useSelector(state => state.user)
+  const {theme} = useSelector(state => state.theme)
+  const dispatch = useDispatch()
 
   const handleLogut = () => {
     setCookies("access_token", "")
@@ -43,7 +48,11 @@ const Nav = () => {
       </div>
       
         <div className=' whitespace-nowrap min-w-[70%] flex justify-end sm:justify-between items-center'>
-          <div className=' flex gap-2 items-center text-sm md:text-lg sm:order-2'>
+        <div className=' flex gap-2 items-center text-sm md:text-lg sm:order-2'>
+          <Button onClick={() => dispatch(toogleTheme())} className=' w-12 h-10 hidden sm:inline' color='gray' pill>
+            {theme === "light" ? <BsFillMoonStarsFill className=' font-bold' /> : <MdSunny />}
+              
+            </Button>
             {
               currentUser ? (
                 <Dropdown
@@ -52,14 +61,15 @@ const Nav = () => {
                   label={
                     <Avatar
                       alt='user'
-                      img={currentUser.rest.profileImg}
+                      img={currentUser.profileImg || currentUser.rest.profileImg}
                       rounded
+                      className=' pl-3'
                     />
                   }
                 >
                   <Dropdown.Header>
-                    <span className=' block text-xs'>@{ currentUser.rest.firstname + " " + currentUser.rest.lastname}</span>
-                    <span className=' block text-xs font-medium truncate'>{ currentUser.rest.email}</span>
+                    <span className=' block text-xs'>@{currentUser.firstname || currentUser.rest.firstname  + " " + currentUser.lastname || currentUser.rest.lastname}</span>
+                    <span className=' block text-xs font-medium truncate'>{ currentUser.email || currentUser.rest.email}</span>
                   </Dropdown.Header>
 
                   <Link to={'/dashboard?tab=profile'}>
